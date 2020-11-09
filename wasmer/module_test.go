@@ -19,6 +19,23 @@ func TestValidateModule(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestValidateModuleFuncMultiValue(t *testing.T) {
+	engine := NewEngine()
+	store := NewStore(engine)
+	err := ValidateModule(
+		store,
+		[]byte(`
+			(module
+			  (type $swap_t (func (param i32 i64) (result i64 i32)))
+			  (func $swap_f (type $swap_t) (param $x i32) (param $y i64) (result i64 i32)
+			    local.get $y
+			    local.get $x)
+			  (export "swap" (func $swap_f)))
+		`),
+	)
+	assert.NoError(t, err)
+}
+
 func TestModuleNameSome(t *testing.T) {
 	engine := NewEngine()
 	store := NewStore(engine)
