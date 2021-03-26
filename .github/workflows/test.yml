@@ -69,7 +69,7 @@ jobs:
         shell: msys2 {0}
         run: |
           cd wasmer
-          go test -v
+          CC=mingw-gcc go test -v
           #just test
 
       #- name: Run all the tests (with custom Wasmer runtime)
